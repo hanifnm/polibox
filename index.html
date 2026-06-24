@@ -440,10 +440,15 @@
           <h2 style="font-size:18px;font-weight:700;margin-bottom:4px;">Masuk ke Akun</h2>
           <p style="font-size:12px;color:var(--text-muted);margin-bottom:20px;">Gunakan kredensial akun institusi Anda.</p>
           
-          <div class="form-group">
-            <label class="form-label">Email Mahasiswa</label>
+          <div class="form-group" style="margin-bottom:16px;">
+            <label class="form-label">Nama Lengkap</label>
+            <input class="form-control" type="text" id="login-nama-lengkap" placeholder="Masukkan nama lengkap Anda..." value="Hanif Ammar">
+          </div>
+
+          <div class="form-group" style="margin-bottom:16px;">
+            <label class="form-label">NIM Mahasiswa</label>
             <div class="email-input-group">
-              <input type="text" id="login-email-user" placeholder="contoh: hanif.12345678" value="hanif.12345678">
+              <input type="text" id="login-email-user" placeholder="contoh: 3.32.23.0.15" value="3.32.23.0.15">
               <span class="email-domain">@mhs.polines.ac.id</span>
             </div>
           </div>
@@ -575,7 +580,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (splash) {
       splash.classList.add('fade-out');
     }
-  }, 2500); // 2500 milidetik = 2,5 Detik penampilan logo awal
+  }, 2500); // 2,5 Detik penampilan logo awal
 });
 
 const barangData = [
@@ -637,9 +642,22 @@ function toggleSidebar() {
   overlay.classList.toggle('show');
 }
 
+/* ========================================================
+   MODIFIKASI UTAMA: PROSES LOGIN MENGGUNAKAN DATA INPUTAN
+   ======================================================== */
 function prosesLoginKredensial() {
-  const userInput = document.getElementById('login-email-user').value.trim();
-  if (!userInput) return alert('Harap masukkan username!');
+  const namaInput = document.getElementById('login-nama-lengkap').value.trim();
+  const nimInput = document.getElementById('login-email-user').value.trim();
+  
+  if (!namaInput) return alert('Harap masukkan Nama Lengkap Anda!');
+  if (!nimInput) return alert('Harap masukkan NIM Mahasiswa!');
+  
+  // Update data object profile secara dinamis
+  userProfiles.penyewa.name = namaInput;
+  userProfiles.penyewa.role = nimInput; 
+  userProfiles.penyewa.initials = getInitials(namaInput);
+
+  // Jalankan fungsi login & render template sidebar
   loginAs('penyewa');
   showToast('Selamat Datang di POLYBOX!');
   
@@ -952,7 +970,16 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-function getInitials(name) { return name.substring(0,2).toUpperCase(); }
+/* ========================================================
+   FUNGSI DINAMIS UNTUK MEMBUAT INISIAL (CONTOH: Hanif Ammar -> HA)
+   ======================================================== */
+function getInitials(name) {
+  const words = name.trim().split(/\s+/);
+  if (words.length >= 2) {
+    return (words[0][0] + words[1][0]).toUpperCase();
+  }
+  return name.substring(0, 2).toUpperCase();
+}
 
 function mulaiChat() {
   closeModal('detail-barang-modal');
