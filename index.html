@@ -37,6 +37,38 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; }
 
+  /* ========================================================
+     STYLE SPLASH SCREEN (LOGO AWAL)
+     ======================================================== */
+  .splash-screen {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+  .splash-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .splash-loading {
+    margin-top: 24px;
+    width: 40px;
+    height: 40px;
+    border: 3.5px solid var(--primary-light);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin-loader 0.8s linear infinite;
+  }
+  @keyframes spin-loader {
+    to { transform: rotate(360deg); }
+  }
+
   /* OVERLAY SIDEBAR MOBILE */
   .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; }
 
@@ -47,12 +79,15 @@
   .brand-logo-container { display: inline-flex; align-items: center; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; user-select: none; }
   .sidebar .brand-logo-container { font-size: 24px; color: #ffffff; }
   .login-area .brand-logo-container { font-size: 46px; color: var(--logo-navy); }
+  .splash-screen .brand-logo-container { font-size: 56px; color: var(--logo-navy); }
 
   .cube-icon { display: inline-block; position: relative; vertical-align: middle; margin: 0 4px; width: 1.1em; height: 1.2em; transform: translateY(-0.05em); }
   .cube-icon::before { content: ""; position: absolute; top: 5%; left: 50%; width: 76%; height: 40%; background: #ffffff; border: 0.08em solid #1d4ed8; transform: translateX(-50%) skewX(-32deg) rotate(16deg); border-radius: 12%; z-index: 3; }
   .cube-icon::after { content: ""; position: absolute; bottom: 5%; left: 50%; width: 90%; height: 72%; transform: translateX(-50%); z-index: 2; background: polygon(82% 16%, 100% 28%, 82% 40%) / 100% 100% no-repeat, linear-gradient(90deg, #1e40af 0%, #1e40af 50%, #0f172a 50%, #0f172a 100%); background: linear-gradient(135deg, transparent 74%, #f59e0b 75%, #f59e0b 86%, transparent 87%) 100% 0% / 0.4em 0.4em no-repeat, linear-gradient(90deg, #2563eb 50%, #1d4ed8 50%); clip-path: polygon(50% 0%, 100% 24%, 100% 76%, 50% 100%, 0% 76%, 0% 24%); }
 
   .logo-sub { font-size: 11px; color: var(--sidebar-text); margin-top: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .splash-screen .logo-sub { color: var(--text-muted); font-size: 14px; margin-top: 10px; font-weight: 500; }
+  
   .sidebar-user { padding: 16px 20px; border-bottom: 1px solid #1e293b; display: flex; align-items: center; gap: 10px; }
   .user-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; background: var(--primary); color: white; }
   .user-info .name { font-size: 13px; font-weight: 600; color: #ffffff; }
@@ -103,8 +138,8 @@
   .content { padding: 28px; flex: 1; }
 
   /* ========================================================
-     KUSTOM STYLE SLIDER: GAMBAR BACKGROUND FULL (5 IKLAN)
-     ======================================================== */
+      KUSTOM STYLE SLIDER: GAMBAR BACKGROUND FULL (5 IKLAN)
+      ======================================================== */
   .ad-dashboard-container { position: relative; width: 100%; overflow: hidden; border-radius: 14px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
   .ad-dashboard-wrapper { display: flex; width: 500%; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); transform: translateX(0%); }
   
@@ -115,23 +150,24 @@
     color: white; 
     display: flex; 
     align-items: flex-end; 
-    justify-content: space-between; 
+    justify-content: flex-end; 
     position: relative; 
     overflow: hidden; 
     min-height: 170px; 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    cursor: pointer;
   }
   /* Lapisan Gelap Tipis agar Teks Terbaca Jelas */
   .ad-banner-slide::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.2) 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
     z-index: 1;
   }
-  .ad-content, .ad-action { position: relative; z-index: 2; }
+  .ad-action { position: relative; z-index: 2; }
 
   /* LINK SOURCE IMAGE */
   .ad-bg-1 { background-image: url('mieceban.jpeg'); } /* Mee Ceban */
@@ -140,8 +176,6 @@
   .ad-bg-4 { background-image: url('astrapasta.png'); } 
   .ad-bg-5 { background-image: url('pancong.png'); }
 
-  .ad-content h3 { font-size: 18px; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.6); }
-  .ad-content p { font-size: 13px; opacity: 0.95; max-width: 580px; line-height: 1.4; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
   .ad-badge { background: #f59e0b; color: white; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; position: absolute; top: 16px; right: 16px; z-index: 2; }
   .ad-action { background: white; color: #0f172a; border: none; padding: 9px 18px; border-radius: 8px; font-weight: 700; font-size: 12.5px; cursor: pointer; transition: transform 0.2s; font-family: inherit; margin-top: auto; }
   .ad-action:hover { transform: translateY(-2px); }
@@ -294,14 +328,18 @@
     .mobile-back-btn { display: block; }
     .ad-dashboard-container { margin-bottom: 16px; }
     .ad-banner-slide { flex-direction: column; align-items: flex-start; gap: 14px; min-height: 220px; }
-    .ad-content p { max-width: 100%; }
     .ad-action { width: 100%; text-align: center; }
   }
 </style>
 </head>
 <body>
 
-<!-- POP-UP MODAL MULTI-SLIDE -->
+<div class="splash-screen" id="splash-screen">
+  <div class="brand-logo-container">POLYB<span class="cube-icon"></span>X</div>
+  <div class="logo-sub">Platform Pinjam Barang Mahasiswa</div>
+  <div class="splash-loading"></div>
+</div>
+
 <div class="ad-popup-overlay" id="ad-popup-overlay" onclick="closeAdPopup(event)">
   <div class="ad-popup-container">
     <button class="ad-popup-close" onclick="forceCloseAdPopup()">✕</button>
@@ -421,7 +459,6 @@
     </div>
 
     <div class="page" id="page-cari-barang">
-      <!-- Grid container barang (Slider iklan disuntikkan dinamis di atas element ini) -->
       <div class="cards-grid" id="cari-grid"></div>
     </div>
 
@@ -531,6 +568,16 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
+// EVENT PADA SAAT HALAMAN SELESAI DIMUAT (PROSES SPLASH SCREEN)
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+      splash.classList.add('fade-out');
+    }
+  }, 2500); // 2500 milidetik = 2,5 Detik penampilan logo awal
+});
+
 const barangData = [
   { id: 1, emoji:'📸', nama:'Kamera DSLR Canon 70D', owner:'Rina Putri', harga:25000, desc:'Kamera profesional kondisi sangat baik. Dilengkapi lensa kit 18-55mm.', kategori:'Kamera & Foto', kondisi:'Sangat Baik', lokasi:'Kos Ngesrep', rating: 4.8, jmlUlasan: 15 },
   { id: 2, emoji:'💻', nama:'Laptop Asus VivoBook 15', owner:'Hendra K.', harga:50000, desc:'Core i5 Gen 11, RAM 8GB, SSD 512GB. Performa kencang untuk kompilasi coding.', kategori:'Elektronik', kondisi:'Baik', lokasi:'Gedung D', rating: 4.9, jmlUlasan: 22 },
@@ -539,7 +586,7 @@ const barangData = [
   { id: 5, emoji:'🖩', nama:'Kalkulator Casio fx-991EX', owner:'Dimas Pratama', harga:5000, desc:'Kalkulator scientific seri ClassWiz. Sangat membantu untuk perhitungan matriks.', kategori:'Alat Tulis & Kuliah', kondisi:'Sangat Baik', lokasi:'Gedung Elektro', rating: 4.9, jmlUlasan: 45 },
   { id: 6, emoji:'🥼', nama:'Jas Lab Teknik Elektro', owner:'Budi Santoso', harga:10000, desc:'Jas Laboratorium lengan panjang standar jurusan Teknik Elektro Polines.', kategori:'Pakaian Kampus', kondisi:'Baik', lokasi:'Gedung Bengkel Elektro', rating: 4.6, jmlUlasan: 12 },
   { id: 7, emoji:'🥼', nama:'Jas Lab Teknik Mesin', owner:'Joko W.', harga:10000, desc:'Jas Laboratorium lengan panjang standar jurusan Teknik Mesin Polines.', kategori:'Pakaian Kampus', kondisi:'Sangat Baik', lokasi:'Gedung Teknik Mesin', rating: 4.8, jmlUlasan: 18 },
-  { id: 8, emoji:'🥼', nama:'Jas Lab Teknik Sipil', owner:'Ayu Puspita', height:10000, nama:'Jas Lab Teknik Sipil', owner:'Ayu Puspita', harga:10000, desc:'Jas Laboratorium lengan panjang standar jurusan Teknik Sipil Polines.', kategori:'Pakaian Kampus', kondisi:'Baik', lokasi:'Gedung Teknik Sipil', rating: 4.5, jmlUlasan: 9 },
+  { id: 8, emoji:'🥼', nama:'Jas Lab Teknik Sipil', owner:'Ayu Puspita', harga:10000, desc:'Jas Laboratorium lengan panjang standar jurusan Teknik Sipil Polines.', kategori:'Pakaian Kampus', kondisi:'Baik', lokasi:'Gedung Teknik Sipil', rating: 4.5, jmlUlasan: 9 },
   { id: 9, emoji:'🦺', nama:'Wearpack Teknik Elektro', owner:'Dodi K.', harga:15000, desc:'Baju praktek bengkel/wearpack standar Teknik Elektro Polines.', kategori:'Pakaian Kampus', kondisi:'Baik', lokasi:'Gedung Bengkel Elektro', rating: 4.9, jmlUlasan: 21 },
   { id: 10, emoji:'🦺', nama:'Wearpack Teknik Mesin', owner:'Bagas H.', harga:15000, desc:'Wearpack terusan standar jurusan Teknik Mesin Polines.', kategori:'Pakaian Kampus', kondisi:'Baik', lokasi:'Gedung Teknik Mesin', rating: 4.7, jmlUlasan: 14 },
   { id: 11, emoji:'👷', nama:'Wearpack Teknik Sipil', owner:'Rizal M.', harga:15000, desc:'Baju kerja lapangan/wearpack proyek mahasiswa Teknik Sipil.', kategori:'Pakaian Kampus', kondisi:'Sangat Baik', lokasi:'Gedung Teknik Sipil', rating: 4.8, jmlUlasan: 11 }
@@ -734,7 +781,7 @@ function renderCari() {
   let oldContainer = document.querySelector('.ad-dashboard-container');
   if (oldContainer) oldContainer.remove();
 
-  // Buat element container slider baru
+  // Buat element container slider baru (DESKRIPSI TEXT SUDAH DIHAPUS TOTAL)
   const adContainer = document.createElement('div');
   adContainer.className = 'ad-dashboard-container';
   adContainer.innerHTML = `
@@ -742,44 +789,29 @@ function renderCari() {
       <button class="ad-dash-btn ad-dash-next" onclick="moveDashSlide(1)">❯</button>
       
       <div class="ad-dashboard-wrapper" id="ad-dashboard-wrapper">
-        <!-- IKLAN 1: MEE CEBAN -->
-        <div class="ad-banner-slide ad-bg-1">
+        <div class="ad-banner-slide ad-bg-1" onclick="showToast('Mengalihkan ke pemesanan Mee Ceban...')">
           <div class="ad-badge">Sponsor</div>
-          <div class="ad-content">
-          </div>
-          <button class="ad-action" onclick="showToast('Mengalihkan ke pemesanan Mee Ceban...')">Pesan Cepat</button>
+          <button class="ad-action">Pesan Cepat</button>
         </div>
         
-        <!-- IKLAN 2: TANIA MART -->
-        <div class="ad-banner-slide ad-bg-2">
+        <div class="ad-banner-slide ad-bg-2" onclick="showToast('Membuka Dapoer Elok...')">
           <div class="ad-badge">Sponsor</div>
-          <div class="ad-content">
-          </div>
-          <button class="ad-action" onclick="showToast('Membuka halaman promo Tania Mart...')">Klaim Promo</button>
+          <button class="ad-action">Klaim Promo</button>
         </div>
         
-        <!-- IKLAN 3 -->
-        <div class="ad-banner-slide ad-bg-3">
+        <div class="ad-banner-slide ad-bg-3" onclick="showToast('Mengalihkan ke Pak Lurah...')">
           <div class="ad-badge">Sponsor</div>
-          <div class="ad-content">
-          </div>
-          <button class="ad-action" onclick="showToast('Membuka formulir pendaftaran event...')">Daftar Sekarang</button>
+          <button class="ad-action">Daftar Sekarang</button>
         </div>
         
-        <!-- IKLAN 4 -->
-        <div class="ad-banner-slide ad-bg-4">
+        <div class="ad-banner-slide ad-bg-4" onclick="showToast('Mengalihkan ke Astra Pasta...')">
           <div class="ad-badge">Sponsor</div>
-          <div class="ad-content">
-          </div>
-          <button class="ad-action" onclick="showToast('Membuka uploader berkas cetak...')">Kirim Berkas</button>
+          <button class="ad-action">Kirim Berkas</button>
         </div>
         
-        <!-- IKLAN 5 -->
-        <div class="ad-banner-slide ad-bg-5">
+        <div class="ad-banner-slide ad-bg-5" onclick="showToast('Mengalihkan ke Kue Pancong...')">
           <div class="ad-badge">Sponsor</div>
-          <div class="ad-content">
-          </div>
-          <button class="ad-action" onclick="showToast('Menghubungi admin sales marketing...')">Sewa Banner</button>
+          <button class="ad-action">Sewa Banner</button>
         </div>
       </div>
       
