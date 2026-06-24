@@ -102,14 +102,39 @@
 
   .content { padding: 28px; flex: 1; }
 
-  /* AD BANNER */
-  .ad-banner { background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 14px; padding: 20px; color: white; display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
-  .ad-banner::after { content: '🛒'; position: absolute; right: -20px; top: -10px; font-size: 120px; opacity: 0.1; transform: rotate(-15deg); pointer-events: none; }
+  /* ========================================================
+     KUSTOM STYLE UNTUK BANNER CAROUSEL DI DASHBOARD (5 IKLAN)
+     ======================================================== */
+  .ad-dashboard-container { position: relative; width: 100%; overflow: hidden; border-radius: 14px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+  .ad-dashboard-wrapper { display: flex; width: 500%; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
+  
+  /* Struktur Banner Satuan */
+  .ad-banner-slide { width: 20%; flex-shrink: 0; padding: 20px; color: white; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; min-height: 120px; }
+  .ad-banner-slide::after { content: '🛒'; position: absolute; right: -20px; top: -10px; font-size: 120px; opacity: 0.1; transform: rotate(-15deg); pointer-events: none; }
+  
+  /* Variasi Warna/Latar Belakang Tiap Iklan */
+  .ad-bg-1 { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); } /* Mee Ceban Navy Dark */
+  .ad-bg-2 { background: linear-gradient(135deg, #10b981 0%, #059669 100%); } /* Tania Mart Green[cite: 1] */
+  .ad-bg-3 { background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); } /* Iklan 3 Orange */
+  .ad-bg-4 { background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%); } /* Iklan 4 Purple */
+  .ad-bg-5 { background: linear-gradient(135deg, #0369a1 0%, #0c4a6e 100%); } /* Iklan 5 Blue */
+
   .ad-content h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-  .ad-content p { font-size: 13.5px; opacity: 0.9; max-width: 500px; line-height: 1.5; }
+  .ad-content p { font-size: 13.5px; opacity: 0.9; max-width: 550px; line-height: 1.5; }
   .ad-badge { background: #f59e0b; color: white; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; position: absolute; top: 16px; right: 16px; }
-  .ad-action { background: white; color: #059669; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; transition: transform 0.2s; font-family: inherit; z-index: 2; margin-top: 12px; }
+  .ad-action { background: white; color: #0f172a; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; transition: transform 0.2s; font-family: inherit; z-index: 2; margin-top: 12px; }
   .ad-action:hover { transform: translateY(-2px); }
+  
+  /* Tombol Panah Dashboard */
+  .ad-dash-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(4px); border: none; color: #fff; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: all 0.2s; }
+  .ad-dash-btn:hover { background: rgba(255, 255, 255, 0.8); color: #000; }
+  .ad-dash-prev { left: 12px; }
+  .ad-dash-next { right: 12px; }
+
+  /* Titik Indikator Bawah Banner */
+  .ad-dash-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 10; }
+  .ad-dash-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.2s; }
+  .ad-dash-dot.active { background: #fff; width: 14px; border-radius: 3px; }
 
   /* CARDS GRID */
   .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
@@ -203,31 +228,20 @@
   .item-status { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
   .status-available { background: var(--success-light); color: #065f46; }
 
-  /* ========================================================
-     KUSTOM STYLE UNTUK POP-UP IKLAN 3 SLIDE (CAROUSEL)
-     ======================================================== */
+  /* KUSTOM STYLE UNTUK POP-UP IKLAN MODAL 3 SLIDE */
   .ad-popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 300; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
   .ad-popup-overlay.open { display: flex; }
-  
   .ad-popup-container { background: #000; position: relative; width: 100%; max-width: 350px; aspect-ratio: 5 / 7; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.4); animation: popupScaleUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
-  
-  /* Wrapper slide agar berderet horizontal */
   .ad-slider-wrapper { display: flex; width: 300%; height: 100%; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
   .ad-slide { width: 33.3333%; height: 100%; flex-shrink: 0; position: relative; }
   .ad-popup-img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
-  
-  /* Tombol navigasi panah */
   .ad-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; user-select: none; z-index: 15; }
   .ad-nav-btn:hover { background: rgba(26, 86, 219, 0.85); border-color: transparent; }
   .ad-nav-prev { left: 10px; }
   .ad-nav-next { right: 10px; }
-  
-  /* Indikator Titik (Dots) */
   .ad-dots-container { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 15; background: rgba(0,0,0,0.3); padding: 6px 10px; border-radius: 20px; }
   .ad-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); cursor: pointer; transition: all 0.2s; }
   .ad-dot.active { background: #1a56db; width: 18px; border-radius: 4px; }
-  
-  /* Tombol Tutup Silang */
   .ad-popup-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0, 0, 0, 0.6); color: white; border: 1.5px solid rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.2s; z-index: 20; }
   .ad-popup-close:hover { background: rgba(239, 68, 68, 0.9); border-color: transparent; transform: scale(1.05); }
 
@@ -259,39 +273,31 @@
     .chat-layout.show-chat .chat-sidebar { display: none; }
     .chat-layout:not(.show-chat) .chat-main-area { display: none; }
     .mobile-back-btn { display: block; }
-    .ad-banner { flex-direction: column; align-items: flex-start; }
-    .ad-action { align-self: stretch; text-align: center; }
+    .ad-dashboard-container { margin-bottom: 16px; }
+    .ad-banner-slide { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .ad-action { width: 100%; text-align: center; }
   }
 </style>
 </head>
 <body>
 
-<!-- COMPONENT MODAL POP-UP 3 SLIDE (CAROUSEL) -->
+<!-- MODAL POP-UP IKLAN 3 SLIDE (PASCA LOGIN) -->
 <div class="ad-popup-overlay" id="ad-popup-overlay" onclick="closeAdPopup(event)">
   <div class="ad-popup-container">
     <button class="ad-popup-close" onclick="forceCloseAdPopup()">✕</button>
-    
-    <!-- Tombol Navigasi Kiri & Kanan -->
     <button class="ad-nav-btn ad-nav-prev" onclick="changeSlide(-1)">❮</button>
     <button class="ad-nav-btn ad-nav-next" onclick="changeSlide(1)">❯</button>
-    
-    <!-- Wrapper utama track pergeseran gambar -->
     <div class="ad-slider-wrapper" id="ad-slider-wrapper">
-      <!-- Slide 1 (Menggunakan Gambar Mee Ceban Anda) -->
       <div class="ad-slide">
-        <img src="WhatsApp Image 2026-06-05 at 9.17.54 AM.jpeg" class="ad-popup-img" alt="Promo Mee Ceban" onclick="clickAd(1)">
+        <img src="WhatsApp Image 2026-06-05 at 9.17.54 AM.jpeg" class="ad-popup-img" alt="Mee Ceban" onclick="clickAd(1)">
       </div>
-      <!-- Slide 2 (Silakan ganti src dengan file gambar kedua Anda) -->
       <div class="ad-slide">
-        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" class="ad-popup-img" alt="Iklan Turnamen Gaming Kampus" onclick="clickAd(2)">
+        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" class="ad-popup-img" alt="Sponsor 2" onclick="clickAd(2)">
       </div>
-      <!-- Slide 3 (Silakan ganti src dengan file gambar ketiga Anda) -->
       <div class="ad-slide">
-        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=500" class="ad-popup-img" alt="Layanan Cetak Tugas Kilat" onclick="clickAd(3)">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=500" class="ad-popup-img" alt="Sponsor 3" onclick="clickAd(3)">
       </div>
     </div>
-    
-    <!-- Indikator Titik Posisi Slide -->
     <div class="ad-dots-container">
       <div class="ad-dot active" onclick="goToSlide(0)"></div>
       <div class="ad-dot" onclick="goToSlide(1)"></div>
@@ -396,13 +402,73 @@
 
     <div class="page" id="page-cari-barang">
       
-      <div class="ad-banner">
-        <div class="ad-badge">Sponsor</div>
-        <div class="ad-content">
-          <h3>Tania Mart - Teman Nugas Kamu! 🎉</h3>
-          <p>Butuh cemilan buat begadang ngerjain tugas akhir atau laporan praktikum? Tunjukin KTM Polines kamu dan dapatkan <strong>Diskon Spesial 20%</strong> untuk semua snack & minuman dingin. Yuk mampir sekarang!</p>
+      <!-- ========================================================
+           BAGIAN BARU: CAROUSEL BANNER DASHBOARD (KAPASITAS 5 IKLAN)[cite: 1]
+           ======================================================== -->
+      <div class="ad-dashboard-container">
+        <button class="ad-dash-btn ad-dash-prev" onclick="moveDashSlide(-1)">❮</button>
+        <button class="ad-dash-btn ad-dash-next" onclick="moveDashSlide(1)">❯</button>
+        
+        <div class="ad-dashboard-wrapper" id="ad-dashboard-wrapper">
+          <!-- IKLAN 1: MEE CEBAN -->
+          <div class="ad-banner-slide ad-bg-1">
+            <div class="ad-badge">Sponsor</div>
+            <div class="ad-content">
+              <h3>Mee Ceban — Pedasnya Gak Nego! 🔥</h3>
+              <p>Kelaparan pas ngerjain laporan atau tugas bengkel? Cobain sensasi mie kenyal premium level 1-5 cuma <strong>Rp13.000 (All Variant)</strong>. Open Pre-Order Mee Ceban Ceng sekarang!</p>
+            </div>
+            <button class="ad-action" onclick="showToast('Mengalihkan ke WhatsApp Pemesanan Mee Ceban...')">Pesan Sekarang</button>
+          </div>
+          
+          <!-- IKLAN 2: TANIA MART[cite: 1] -->
+          <div class="ad-banner-slide ad-bg-2">
+            <div class="ad-badge">Sponsor</div>
+            <div class="ad-content">
+              <h3>Tania Mart - Teman Nugas Kamu! 🎉[cite: 1]</h3>
+              <p>Butuh cemilan buat begadang ngerjain tugas akhir atau laporan praktikum? Tunjukin KTM Polines kamu dan dapatkan <strong>Diskon Spesial 20%</strong> untuk semua snack & minuman dingin.[cite: 1]</p>
+            </div>
+            <button class="ad-action" onclick="showToast('Mengalihkan ke halaman Tania Mart...')">Klaim Promo[cite: 1]</button>
+          </div>
+          
+          <!-- IKLAN 3: KOSONG / SLOT TAMBAHAN -->
+          <div class="ad-banner-slide ad-bg-3">
+            <div class="ad-badge">Sponsor</div>
+            <div class="ad-content">
+              <h3>Himpunan Mahasiswa Elektro (HME) ⚡</h3>
+              <p>Segera hadir! Ikuti seminar teknologi nasional dan workshop pengembangan IoT Internet of Things terakreditasi kampus. Amankan kursi delegasi kelasmu.</p>
+            </div>
+            <button class="ad-action" onclick="showToast('Membuka form registrasi HME...')">Daftar Event</button>
+          </div>
+          
+          <!-- IKLAN 4: KOSONG / SLOT TAMBAHAN -->
+          <div class="ad-banner-slide ad-bg-4">
+            <div class="ad-badge">Sponsor</div>
+            <div class="ad-content">
+              <h3>Fotokopi & Print Teknik Kilat 🖨️</h3>
+              <p>Cetak dokumen tugas akhir, naskah praktikum, cetak blueprint skema rangkaian elektronik tanpa antre panjang. Kirim file via web, ambil langsung jadi.</p>
+            </div>
+            <button class="ad-action" onclick="showToast('Membuka uploader dokumen...')">Upload File</button>
+          </div>
+          
+          <!-- IKLAN 5: KOSONG / SLOT TAMBAHAN -->
+          <div class="ad-banner-slide ad-bg-5">
+            <div class="ad-badge">Sponsor</div>
+            <div class="ad-content">
+              <h3>Polybox Ads Space — Sewa Banner 📈</h3>
+              <p>Ingin bisnis makanan, kos-kosan, atau jasa pengerjaan kodingan Anda dilihat oleh ribuan mahasiswa aktif setiap hari? Pasang iklan banner interaktif murah disini.</p>
+            </div>
+            <button class="ad-action" onclick="showToast('Menghubungi admin Polybox Marketing...')">Hubungi Kami</button>
+          </div>
         </div>
-        <button class="ad-action" onclick="showToast('Mengalihkan ke halaman Tania Mart...')">Klaim Promo</button>
+        
+        <!-- Indikator Dots untuk Dashboard -->
+        <div class="ad-dash-dots">
+          <div class="ad-dash-dot active" onclick="jumpToDashSlide(0)"></div>
+          <div class="ad-dash-dot" onclick="jumpToDashSlide(1)"></div>
+          <div class="ad-dash-dot" onclick="jumpToDashSlide(2)"></div>
+          <div class="ad-dash-dot" onclick="jumpToDashSlide(3)"></div>
+          <div class="ad-dash-dot" onclick="jumpToDashSlide(4)"></div>
+        </div>
       </div>
 
       <div class="cards-grid" id="cari-grid"></div>
@@ -478,19 +544,15 @@
 <div class="modal-overlay" id="detail-barang-modal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('detail-barang-modal')">✕</button>
-    
     <div style="font-size:54px;text-align:center;background:var(--bg);border-radius:12px;padding:24px;margin-bottom:16px; border:1px solid var(--border);" id="modal-barang-img">📸</div>
-    
     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px; flex-wrap: wrap;">
       <div style="font-size:20px; font-weight:700; color:var(--text);" id="modal-barang-nama">Nama Barang</div>
       <div style="font-size:20px; font-weight:800; color:var(--primary); text-align:right;" id="modal-barang-harga">Rp 0</div>
     </div>
-    
     <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
       <div style="font-size:13px; color:var(--text-muted);" id="modal-barang-owner">oleh Pemilik</div>
       <div style="font-size:12px; color:#f59e0b; font-weight:700; background:var(--warning-light); padding:2px 8px; border-radius:12px;" id="modal-barang-rating">⭐ 4.8 (12 Ulasan)</div>
     </div>
-
     <div class="modal-detail-layout">
       <div>
         <h4 style="font-size:14px; font-weight:700; margin-bottom:6px; color:var(--text);">Deskripsi</h4>
@@ -502,14 +564,10 @@
         <div class="spec-box"><div class="spec-label">Lokasi</div><div class="spec-value" id="modal-spec-lokasi">Tembalang</div></div>
       </div>
     </div>
-
     <div class="review-section">
-      <div class="review-header">
-        <div class="review-title">Ulasan Pengguna</div>
-      </div>
+      <div class="review-header"><div class="review-title">Ulasan Pengguna</div></div>
       <div id="modal-reviews-container"></div>
     </div>
-
     <div class="btn-group" style="margin-top:24px; gap:12px;">
       <button class="btn btn-outline" onclick="closeModal('detail-barang-modal')" style="flex:1;">Kembali</button>
       <button class="btn btn-outline" onclick="mulaiChat()" style="flex:1; border-color:var(--primary); color:var(--primary);">💬 Chat Pemilik</button>
@@ -570,7 +628,7 @@ function toggleNotif(event) {
 }
 window.onclick = function(event) {
   if (!event.target.closest('.topbar-btn') && !event.target.closest('.notif-dropdown')) {
-    document.getElementById('notif-dropdown').classList.remove('remove');
+    document.getElementById('notif-dropdown').classList.remove('show');
   }
 }
 
@@ -587,61 +645,71 @@ function prosesLoginKredensial() {
   loginAs('penyewa');
   showToast('Selamat Datang di POLYBOX!');
   
-  // Munculkan iklan slide setelah login sukses
+  // POPUP MODAL CAROUSEL TETAP AKTIF SAAT LOGIN
   setTimeout(() => {
     document.getElementById('ad-popup-overlay').classList.add('open');
-    currentSlideIdx = 0;
-    updateSlidePosition();
+    currentPopupSlide = 0;
+    updatePopupSlidePosition();
   }, 600);
 }
 
 /* ========================================================
-   LOGIKA INTERAKTIF SLIDER POP-UP IKLAN (3 SLIDE)
+   LOGIKA INTERAKTIF SLIDER 1: MODAL POP-UP (3 SLIDE)
    ======================================================== */
-let currentSlideIdx = 0;
-const totalSlides = 3;
+let currentPopupSlide = 0;
+const totalPopupSlides = 3;
 
 function changeSlide(direction) {
-  currentSlideIdx += direction;
-  if (currentSlideIdx >= totalSlides) {
-    currentSlideIdx = 0; // Balik ke pertama
-  } else if (currentSlideIdx < 0) {
-    currentSlideIdx = totalSlides - 1; // Lompat ke terakhir
-  }
-  updateSlidePosition();
+  currentPopupSlide += direction;
+  if (currentPopupSlide >= totalPopupSlides) currentPopupSlide = 0;
+  else if (currentPopupSlide < 0) currentPopupSlide = totalPopupSlides - 1;
+  updatePopupSlidePosition();
 }
-
 function goToSlide(index) {
-  currentSlideIdx = index;
-  updateSlidePosition();
+  currentPopupSlide = index;
+  updatePopupSlidePosition();
 }
-
-function updateSlidePosition() {
+function updatePopupSlidePosition() {
   const track = document.getElementById('ad-slider-wrapper');
-  // Geser posisi wrapper berdasarkan index (0%, -100%, -200%)
-  track.style.transform = `translateX(-${currentSlideIdx * 33.3333}%)`;
-  
-  // Sinkronisasi kelas active pada komponen dots indikator
+  if(track) track.style.transform = `translateX(-${currentPopupSlide * 33.3333}%)`;
   const dots = document.querySelectorAll('.ad-dot');
   dots.forEach((dot, idx) => {
-    if(idx === currentSlideIdx) dot.classList.add('active');
+    if(idx === currentPopupSlide) dot.classList.add('active');
     else dot.classList.remove('active');
   });
 }
-
-function forceCloseAdPopup() {
-  document.getElementById('ad-popup-overlay').classList.remove('open');
-}
-
-function closeAdPopup(event) {
-  if(event.target.id === 'ad-popup-overlay') {
-    forceCloseAdPopup();
-  }
-}
-
+function forceCloseAdPopup() { document.getElementById('ad-popup-overlay').classList.remove('open'); }
+function closeAdPopup(event) { if(event.target.id === 'ad-popup-overlay') forceCloseAdPopup(); }
 function clickAd(slideNum) {
-  showToast(`Membuka tautan detail Sponsor Slide ${slideNum}...`);
+  showToast(`Membuka detail Promo Pop-up Slide ${slideNum}...`);
   forceCloseAdPopup();
+}
+
+/* ========================================================
+   LOGIKA INTERAKTIF SLIDER 2: BANNER DASHBOARD UTAMA (5 IKLAN)[cite: 1]
+   ======================================================== */
+let currentDashSlide = 0;
+const totalDashSlides = 5; // Berisi 5 Slot Iklan[cite: 1]
+
+function moveDashSlide(direction) {
+  currentDashSlide += direction;
+  if (currentDashSlide >= totalDashSlides) currentDashSlide = 0;
+  else if (currentDashSlide < 0) currentDashSlide = totalDashSlides - 1;
+  updateDashSlidePosition();
+}
+function jumpToDashSlide(index) {
+  currentDashSlide = index;
+  updateDashSlidePosition();
+}
+function updateDashSlidePosition() {
+  const wrapper = document.getElementById('ad-dashboard-wrapper');
+  if(wrapper) wrapper.style.transform = `translateX(-${currentDashSlide * 20}%)`;
+  
+  const dots = document.querySelectorAll('.ad-dash-dot');
+  dots.forEach((dot, idx) => {
+    if(idx === currentDashSlide) dot.classList.add('active');
+    else dot.classList.remove('active');
+  });
 }
 
 function loginAs(role) {
@@ -695,7 +763,11 @@ function showPage(pageId, navEl) {
   const overlay = document.getElementById('sidebar-overlay');
   if(overlay) overlay.classList.remove('show');
 
-  if (pageId === 'cari-barang') renderCari();
+  if (pageId === 'cari-barang') {
+    renderCari();
+    currentDashSlide = 0;
+    setTimeout(updateDashSlidePosition, 100);
+  }
   if (pageId === 'riwayat') renderRiwayat();
   if (pageId === 'chat') {
     renderChatSidebar();
@@ -756,7 +828,6 @@ function openDetail(idx) {
       <div class="review-text">Sesuai deskripsi, harga sewa juga aman di kantong mahasiswa. Mantap!</div>
     </div>
   `;
-
   showModal('detail-barang-modal');
 }
 
@@ -835,11 +906,9 @@ function mulaiChat() {
   closeModal('detail-barang-modal');
   const owner = barangData[selectedBarangIdx].owner;
   const barang = barangData[selectedBarangIdx].nama;
-  
   if(!chatData[owner]) {
     chatData[owner] = [{ sender: 'me', text: `Halo kak ${owner}, saya tertarik untuk pinjam ${barang}. Apakah masih tersedia?` }];
   }
-  
   showPage('chat');
   openChatWith(owner);
 }
@@ -880,9 +949,7 @@ function openChatWith(contact) {
   renderChatMessages();
 }
 
-function backToChatList() {
-  document.getElementById('chat-layout-container').classList.remove('show-chat');
-}
+function backToChatList() { document.getElementById('chat-layout-container').classList.remove('show-chat'); }
 
 function renderChatMessages() {
   const container = document.getElementById('chat-messages-container');
