@@ -203,12 +203,32 @@
   .item-status { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
   .status-available { background: var(--success-light); color: #065f46; }
 
-  /* KUSTOM STYLE UNTUK POP-UP IKLAN */
-  .ad-popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 300; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(3px); }
+  /* ========================================================
+     KUSTOM STYLE UNTUK POP-UP IKLAN 3 SLIDE (CAROUSEL)
+     ======================================================== */
+  .ad-popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 300; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(4px); }
   .ad-popup-overlay.open { display: flex; }
-  .ad-popup-container { background: transparent; position: relative; width: 100%; max-width: 350px; aspect-ratio: 5 / 7; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: popupScaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-  .ad-popup-img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; cursor: pointer; display: block; }
-  .ad-popup-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0, 0, 0, 0.6); color: white; border: 1.5px solid rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.2s; z-index: 10; }
+  
+  .ad-popup-container { background: #000; position: relative; width: 100%; max-width: 350px; aspect-ratio: 5 / 7; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.4); animation: popupScaleUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  
+  /* Wrapper slide agar berderet horizontal */
+  .ad-slider-wrapper { display: flex; width: 300%; height: 100%; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+  .ad-slide { width: 33.3333%; height: 100%; flex-shrink: 0; position: relative; }
+  .ad-popup-img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
+  
+  /* Tombol navigasi panah */
+  .ad-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; user-select: none; z-index: 15; }
+  .ad-nav-btn:hover { background: rgba(26, 86, 219, 0.85); border-color: transparent; }
+  .ad-nav-prev { left: 10px; }
+  .ad-nav-next { right: 10px; }
+  
+  /* Indikator Titik (Dots) */
+  .ad-dots-container { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 15; background: rgba(0,0,0,0.3); padding: 6px 10px; border-radius: 20px; }
+  .ad-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.4); cursor: pointer; transition: all 0.2s; }
+  .ad-dot.active { background: #1a56db; width: 18px; border-radius: 4px; }
+  
+  /* Tombol Tutup Silang */
+  .ad-popup-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0, 0, 0, 0.6); color: white; border: 1.5px solid rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.2s; z-index: 20; }
   .ad-popup-close:hover { background: rgba(239, 68, 68, 0.9); border-color: transparent; transform: scale(1.05); }
 
   @keyframes popupScaleUp {
@@ -246,10 +266,37 @@
 </head>
 <body>
 
+<!-- COMPONENT MODAL POP-UP 3 SLIDE (CAROUSEL) -->
 <div class="ad-popup-overlay" id="ad-popup-overlay" onclick="closeAdPopup(event)">
   <div class="ad-popup-container">
     <button class="ad-popup-close" onclick="forceCloseAdPopup()">✕</button>
-    <img src="mieceban.jpeg" class="ad-popup-img" alt="Iklan Sponsor" onclick="clickAd()">
+    
+    <!-- Tombol Navigasi Kiri & Kanan -->
+    <button class="ad-nav-btn ad-nav-prev" onclick="changeSlide(-1)">❮</button>
+    <button class="ad-nav-btn ad-nav-next" onclick="changeSlide(1)">❯</button>
+    
+    <!-- Wrapper utama track pergeseran gambar -->
+    <div class="ad-slider-wrapper" id="ad-slider-wrapper">
+      <!-- Slide 1 (Menggunakan Gambar Mee Ceban Anda) -->
+      <div class="ad-slide">
+        <img src="WhatsApp Image 2026-06-05 at 9.17.54 AM.jpeg" class="ad-popup-img" alt="Promo Mee Ceban" onclick="clickAd(1)">
+      </div>
+      <!-- Slide 2 (Silakan ganti src dengan file gambar kedua Anda) -->
+      <div class="ad-slide">
+        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=500" class="ad-popup-img" alt="Iklan Turnamen Gaming Kampus" onclick="clickAd(2)">
+      </div>
+      <!-- Slide 3 (Silakan ganti src dengan file gambar ketiga Anda) -->
+      <div class="ad-slide">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=500" class="ad-popup-img" alt="Layanan Cetak Tugas Kilat" onclick="clickAd(3)">
+      </div>
+    </div>
+    
+    <!-- Indikator Titik Posisi Slide -->
+    <div class="ad-dots-container">
+      <div class="ad-dot active" onclick="goToSlide(0)"></div>
+      <div class="ad-dot" onclick="goToSlide(1)"></div>
+      <div class="ad-dot" onclick="goToSlide(2)"></div>
+    </div>
   </div>
 </div>
 
@@ -523,7 +570,7 @@ function toggleNotif(event) {
 }
 window.onclick = function(event) {
   if (!event.target.closest('.topbar-btn') && !event.target.closest('.notif-dropdown')) {
-    document.getElementById('notif-dropdown').classList.remove('show');
+    document.getElementById('notif-dropdown').classList.remove('remove');
   }
 }
 
@@ -540,24 +587,60 @@ function prosesLoginKredensial() {
   loginAs('penyewa');
   showToast('Selamat Datang di POLYBOX!');
   
-  // TRIGGER POPUP IKLAN KETIKA BARU DIAKSES / BERHASIL LOGIN
+  // Munculkan iklan slide setelah login sukses
   setTimeout(() => {
     document.getElementById('ad-popup-overlay').classList.add('open');
+    currentSlideIdx = 0;
+    updateSlidePosition();
   }, 600);
 }
 
-// FUNGSI KONTROL POP-UP IKLAN
+/* ========================================================
+   LOGIKA INTERAKTIF SLIDER POP-UP IKLAN (3 SLIDE)
+   ======================================================== */
+let currentSlideIdx = 0;
+const totalSlides = 3;
+
+function changeSlide(direction) {
+  currentSlideIdx += direction;
+  if (currentSlideIdx >= totalSlides) {
+    currentSlideIdx = 0; // Balik ke pertama
+  } else if (currentSlideIdx < 0) {
+    currentSlideIdx = totalSlides - 1; // Lompat ke terakhir
+  }
+  updateSlidePosition();
+}
+
+function goToSlide(index) {
+  currentSlideIdx = index;
+  updateSlidePosition();
+}
+
+function updateSlidePosition() {
+  const track = document.getElementById('ad-slider-wrapper');
+  // Geser posisi wrapper berdasarkan index (0%, -100%, -200%)
+  track.style.transform = `translateX(-${currentSlideIdx * 33.3333}%)`;
+  
+  // Sinkronisasi kelas active pada komponen dots indikator
+  const dots = document.querySelectorAll('.ad-dot');
+  dots.forEach((dot, idx) => {
+    if(idx === currentSlideIdx) dot.classList.add('active');
+    else dot.classList.remove('active');
+  });
+}
+
 function forceCloseAdPopup() {
   document.getElementById('ad-popup-overlay').classList.remove('open');
 }
+
 function closeAdPopup(event) {
-  // Menutup popup hanya jika area luar gambar poster diklik
   if(event.target.id === 'ad-popup-overlay') {
     forceCloseAdPopup();
   }
 }
-function clickAd() {
-  showToast("Membuka detail promo sponsorship...");
+
+function clickAd(slideNum) {
+  showToast(`Membuka tautan detail Sponsor Slide ${slideNum}...`);
   forceCloseAdPopup();
 }
 
