@@ -163,7 +163,7 @@
   .email-input-group input { flex: 1; padding: 10px 14px; border: none; font-size: 14px; font-family: inherit; color: var(--text); background: transparent; outline: none; width: 100%; }
   .email-domain { padding-right: 14px; font-size: 13.5px; font-weight: 600; color: var(--text-muted); user-select: none; background: transparent; }
 
-  /* TABLE & FORMS ... (Tetap sama seperti sebelumnya) */
+  /* TABLE & FORMS */
   .table-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; overflow-x: auto; }
   .data-table { width: 100%; border-collapse: collapse; min-width: 600px; }
   .data-table th { background: var(--bg); padding: 12px 16px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); text-align: left; border-bottom: 1px solid var(--border); }
@@ -203,6 +203,19 @@
   .item-status { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
   .status-available { background: var(--success-light); color: #065f46; }
 
+  /* KUSTOM STYLE UNTUK POP-UP IKLAN */
+  .ad-popup-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 300; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(3px); }
+  .ad-popup-overlay.open { display: flex; }
+  .ad-popup-container { background: transparent; position: relative; width: 100%; max-width: 350px; aspect-ratio: 5 / 7; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: popupScaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .ad-popup-img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; cursor: pointer; display: block; }
+  .ad-popup-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0, 0, 0, 0.6); color: white; border: 1.5px solid rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.2s; z-index: 10; }
+  .ad-popup-close:hover { background: rgba(239, 68, 68, 0.9); border-color: transparent; transform: scale(1.05); }
+
+  @keyframes popupScaleUp {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
   /* RESPONSIVE */
   @media (max-width: 768px) {
     .sidebar { transform: translateX(-100%); }
@@ -232,6 +245,13 @@
 </style>
 </head>
 <body>
+
+<div class="ad-popup-overlay" id="ad-popup-overlay" onclick="closeAdPopup(event)">
+  <div class="ad-popup-container">
+    <button class="ad-popup-close" onclick="forceCloseAdPopup()">✕</button>
+    <img src="mieceban.jpeg" class="ad-popup-img" alt="Iklan Sponsor" onclick="clickAd()">
+  </div>
+</div>
 
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
@@ -440,8 +460,7 @@
       <div class="review-header">
         <div class="review-title">Ulasan Pengguna</div>
       </div>
-      <div id="modal-reviews-container">
-        </div>
+      <div id="modal-reviews-container"></div>
     </div>
 
     <div class="btn-group" style="margin-top:24px; gap:12px;">
@@ -456,7 +475,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-// Menambahkan field rating & review (ulasan) pada data barang
 const barangData = [
   { id: 1, emoji:'📸', nama:'Kamera DSLR Canon 70D', owner:'Rina Putri', harga:25000, desc:'Kamera profesional kondisi sangat baik. Dilengkapi lensa kit 18-55mm.', kategori:'Kamera & Foto', kondisi:'Sangat Baik', lokasi:'Kos Ngesrep', rating: 4.8, jmlUlasan: 15 },
   { id: 2, emoji:'💻', nama:'Laptop Asus VivoBook 15', owner:'Hendra K.', harga:50000, desc:'Core i5 Gen 11, RAM 8GB, SSD 512GB. Performa kencang untuk kompilasi coding.', kategori:'Elektronik', kondisi:'Baik', lokasi:'Gedung D', rating: 4.9, jmlUlasan: 22 },
@@ -503,7 +521,6 @@ function toggleNotif(event) {
   event.stopPropagation();
   document.getElementById('notif-dropdown').classList.toggle('show');
 }
-// Close dropdown when clicked outside
 window.onclick = function(event) {
   if (!event.target.closest('.topbar-btn') && !event.target.closest('.notif-dropdown')) {
     document.getElementById('notif-dropdown').classList.remove('show');
@@ -522,6 +539,26 @@ function prosesLoginKredensial() {
   if (!userInput) return alert('Harap masukkan username!');
   loginAs('penyewa');
   showToast('Selamat Datang di POLYBOX!');
+  
+  // TRIGGER POPUP IKLAN KETIKA BARU DIAKSES / BERHASIL LOGIN
+  setTimeout(() => {
+    document.getElementById('ad-popup-overlay').classList.add('open');
+  }, 600);
+}
+
+// FUNGSI KONTROL POP-UP IKLAN
+function forceCloseAdPopup() {
+  document.getElementById('ad-popup-overlay').classList.remove('open');
+}
+function closeAdPopup(event) {
+  // Menutup popup hanya jika area luar gambar poster diklik
+  if(event.target.id === 'ad-popup-overlay') {
+    forceCloseAdPopup();
+  }
+}
+function clickAd() {
+  showToast("Membuka detail promo sponsorship...");
+  forceCloseAdPopup();
 }
 
 function loginAs(role) {
@@ -617,7 +654,6 @@ function openDetail(idx) {
   document.getElementById('modal-spec-kondisi').textContent = b.kondisi;
   document.getElementById('modal-spec-lokasi').textContent = b.lokasi;
   
-  // Render Fake Reviews Data
   const reviewContainer = document.getElementById('modal-reviews-container');
   reviewContainer.innerHTML = `
     <div class="review-card">
